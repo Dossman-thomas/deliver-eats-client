@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import DetailsSection from "./DetailsSection";
 import { Separator } from "@/components/ui/separator";
+import CuisinesSection from "./CuisinesSection";
 
 const formSchema = z.object({
   // creating a schema for form validation
@@ -66,6 +67,7 @@ const ManageRestaurantForm = ({ onSave, isLoading }: Props) => {
       >
         <DetailsSection />
         <Separator />
+        <CuisinesSection />
       </form>
     </Form>
   );
