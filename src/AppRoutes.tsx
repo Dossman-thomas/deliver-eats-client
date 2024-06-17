@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import ProtectedRoute from "./auth/ProtectedRoute";
+import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 
 // Define the main routes of the application
 const AppRoutes = () => {
@@ -31,6 +32,15 @@ const AppRoutes = () => {
             // Wrap the UserProfilePage component inside the Layout component
             <Layout>
               <UserProfilePage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/manage-restaurant"
+          element={
+            // Wrap the ManageRestaurantPage component inside the Layout component
+            <Layout>
+              <ManageRestaurantPage />
             </Layout>
           }
         />
