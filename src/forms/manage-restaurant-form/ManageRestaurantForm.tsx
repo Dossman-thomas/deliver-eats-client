@@ -36,6 +36,7 @@ const formSchema = z.object({
     z.object({
       name: z.string().min(1, "Please enter a valid name"),
       price: z.coerce.number().min(1, "Please enter a valid price"),
+      description: z.string().min(1, "Please enter a valid description"),
     })
   ),
   imageFile: z.instanceof(File, {
@@ -43,7 +44,7 @@ const formSchema = z.object({
   }),
 });
 
-type restaurantFormData = z.infer<typeof formSchema>; // creating a type based on properties in formSchema
+type RestaurantFormData = z.infer<typeof formSchema>; // creating a type based on properties in formSchema
 
 type Props = {
   onSave: (restaurantFormData: FormData) => void;
@@ -51,16 +52,43 @@ type Props = {
 };
 
 const ManageRestaurantForm = ({ onSave, isLoading }: Props) => {
-  const form = useForm<restaurantFormData>({
+  const form = useForm<RestaurantFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       cuisines: [],
-      menuItems: [{ name: "", price: 0 }],
+      menuItems: [{ name: "", price: 0, description: ""}],
     }, // initial values for the form
   });
 
-  const onSubmit = (formDataJson: restaurantFormData) => {
-    // TODO: Convert formDataJson to a new FormData object
+  const onSubmit = (formDataJson: RestaurantFormData) => {
+    // Convert formDataJson to a new FormData object
+    const formData = new FormData();
+
+    formData.append("restaurantName", formDataJson.restaurantName);
+    formData.append("city", formDataJson.city);
+    formData.append("country", formDataJson.country);
+    formData.append(
+      "deliveryPrice",
+      (formDataJson.deliveryPrice * 100).toString() // converting to cents to store in the database
+    );
+    formData.append(
+      "estimatedDeliveryTime",
+      formDataJson.estimatedDeliveryTime.toString()
+    );
+    formDataJson.cuisines.forEach((cuisine, index) =>
+      formData.append(`cuisines[${index}]`, cuisine)
+    );
+    formDataJson.menuItems.forEach((menuItem, index) => {
+      formData.append(`menuItems[${index}][name]`, menuItem.name);
+      formData.append(
+        `menuItems[${index}][price]`,
+        (menuItem.price * 100).toString() // converting to cents to store in the database
+      );
+      formData.append(`menuItems[${index}][description]`, menuItem.description);
+    });
+
+    formData.append("imageFile", formDataJson.imageFile);
+    
   };
 
   return (
