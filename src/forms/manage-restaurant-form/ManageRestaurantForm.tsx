@@ -88,7 +88,8 @@ const ManageRestaurantForm = ({ onSave, isLoading }: Props) => {
     });
 
     formData.append("imageFile", formDataJson.imageFile);
-    
+
+    onSave(formData); // calling the onSave function with the FormData object as an argument
   };
 
   return (
