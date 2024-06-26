@@ -1,5 +1,6 @@
 import { Restaurant } from "@/types";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 
@@ -108,13 +109,19 @@ export const useUpdateMyRestaurant = () => {
     error,
   } = useMutation(updateRestaurantRequest);
 
-  if (isSuccess) {
-    toast.success("Restaurant updated successfully!");
-  }
+  useEffect(() => { // show a toast message based on the response.  If successful, reload the page so that the changes are reflected.
 
-  if (error) {
-    toast.error("Failed to update restaurant");
-  }
+    if (isSuccess) {
+      toast.success("Restaurant updated successfully!");
+      window.location.reload();
+    }
+
+    if (error) {
+      toast.error("Failed to update restaurant");
+    }
+
+  }, [isSuccess, error]);
+
 
   return { updateRestaurant, isLoading };
 
