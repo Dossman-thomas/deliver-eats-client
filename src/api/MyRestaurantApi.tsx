@@ -115,5 +115,7 @@ export const useUpdateMyRestaurant = () => {
   if (error) {
     toast.error("Failed to update restaurant");
   }
-  
+
+  return { updateRestaurant, isLoading };
+
 };
