@@ -1,9 +1,9 @@
 // Import necessary modules and components
 import { zodResolver } from "@hookform/resolvers/zod"; // Resolver for integrating Zod schema validation with react-hook-form
 import { Search } from "lucide-react"; // Search icon from lucide-react library
-import { Form, useForm } from "react-hook-form"; // Hooks and components from react-hook-form
+import { useForm } from "react-hook-form"; // Hooks and components from react-hook-form
 import { z } from "zod"; // Zod library for schema validation
-import { FormControl, FormField, FormItem } from "./ui/form"; // UI components for form layout
+import { Form, FormControl, FormField, FormItem } from "./ui/form"; // UI components for form layout
 import { Input } from "./ui/input"; // UI component for input field
 import { Button } from "./ui/button"; // UI component for button
 
@@ -21,7 +21,7 @@ export type SearchForm = z.infer<typeof formSchema>;
 type Props = {
   onSubmit: (formData: SearchForm) => void; // Function to handle form submission
   placeholder: string; // Placeholder text for the input field
-  onReset: () => void; // Function to handle form reset
+  onReset?: () => void; // Function to handle form reset
 };
 
 // SearchBar component definition

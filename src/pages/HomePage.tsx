@@ -4,15 +4,12 @@ import SearchBar, { SearchForm } from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
-
+  const navigate = useNavigate();
   const handleSearchSubmit = (searchFormValues: SearchForm) => {
-
-    const navigate = useNavigate();
-
     // Handle search form submission
     navigate({
-        pathname: `/search/${searchFormValues.searchQuery}`,
-    })
+      pathname: `/search/${searchFormValues.searchQuery}`,
+    });
   };
 
   return (
@@ -22,7 +19,10 @@ const HomePage = () => {
           Tuck into a takeaway today
         </h1>
         <span className="text-xl">Food is just a click away. Order now!</span>
-        <SearchBar placeholder="Search by City or Town" onSubmit={handleSearchSubmit} />
+        <SearchBar
+          placeholder="Search by City or Town"
+          onSubmit={handleSearchSubmit}
+        />
       </div>
 
       <div className="grid md:grid-cols-2 gap-5">

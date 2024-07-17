@@ -5,6 +5,7 @@ import AuthCallbackPage from "./pages/AuthCallbackPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ManageRestaurantPage from "./pages/ManageRestaurantPage";
+import SearchPage from "./pages/SearchPage";
 
 // Define the main routes of the application
 const AppRoutes = () => {
@@ -22,7 +23,14 @@ const AppRoutes = () => {
       />
       {/* Route for the authentication callback page */}
       <Route path="/auth-callback" element={<AuthCallbackPage />} />
-
+      <Route
+        path="/search/:city"
+        element={
+          <Layout showHero={false}>
+            <SearchPage />
+          </Layout>
+        }
+      />
       {/* Protected route for user profile page */}
       <Route element={<ProtectedRoute />}>
         {/* Sub-route for the user profile page */}
