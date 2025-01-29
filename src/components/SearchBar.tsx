@@ -6,6 +6,7 @@ import { z } from "zod"; // Zod library for schema validation
 import { Form, FormControl, FormField, FormItem } from "./ui/form"; // UI components for form layout
 import { Input } from "./ui/input"; // UI component for input field
 import { Button } from "./ui/button"; // UI component for button
+import { useEffect } from "react";
 
 // Define schema for form validation using Zod
 const formSchema = z.object({
@@ -22,14 +23,22 @@ type Props = {
   onSubmit: (formData: SearchForm) => void; // Function to handle form submission
   placeholder: string; // Placeholder text for the input field
   onReset?: () => void; // Function to handle form reset
+  searchQuery: string; // Search query string
 };
 
 // SearchBar component definition
-const SearchBar = ({ onSubmit, onReset, placeholder }: Props) => {
+const SearchBar = ({ onSubmit, onReset, placeholder, searchQuery }: Props) => {
   // Initialize the form using useForm hook with schema resolver
   const form = useForm<SearchForm>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      searchQuery,
+    },
   });
+
+  useEffect(() => {
+    form.reset({ searchQuery });
+  }, [form, searchQuery]);
 
   const handleReset = () => {
     form.reset({
@@ -47,7 +56,7 @@ const SearchBar = ({ onSubmit, onReset, placeholder }: Props) => {
       {/* Form element with onSubmit handler */}
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={`flex items-center flex-1 gap-3 justify-between flex-row border-2 rounded-full p-3 mx-5 ${
+        className={`flex items-center flex-1 gap-3 justify-between flex-row border-2 rounded-full p-3 ${
           form.formState.errors.searchQuery && "border-red-500"
         }`} // style form to look cohesive and responsive to errors
       >
@@ -77,16 +86,14 @@ const SearchBar = ({ onSubmit, onReset, placeholder }: Props) => {
         />
 
         {/* Conditionally render the Clear button if the form is dirty (has changes) */}
-        {form.formState.isDirty && (
-          <Button
-            type="button"
-            variant="outline"
-            className="rounded-full"
-            onClick={handleReset}
-          >
-            Clear
-          </Button>
-        )}
+        <Button
+          type="button"
+          variant="outline"
+          className="rounded-full"
+          onClick={handleReset}
+        >
+          Reset
+        </Button>
         <Button type="submit" className="rounded-full bg-orange-500">
           Search
         </Button>
